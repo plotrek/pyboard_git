@@ -6,7 +6,7 @@ import gol
 height = 64
 width = 128
 display = SSD1306(pinout={'sda': 'X10'},
-                  height=height,
+                  height=64,
                   external_vcc=False)
 
 sw = pyb.Switch()
@@ -20,8 +20,8 @@ while not sw():
     display.clear()
     for row in range(height):
         for index in range(width):
-            if grid[row, index] == 255:
-                display.set_pixel(row, index, 1)
+            if grid[row][index] == 255:
+                display.set_pixel(index, row, 1)
     display.display()
     grid = gol.update(grid, height, width)
     time.sleep(1)

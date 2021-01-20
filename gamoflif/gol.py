@@ -8,10 +8,10 @@ vals = [ON, OFF]
 
 
 def randomGrid(N, M):
-    grid = {}
+    grid = [[0 for i in range(M)] for j in range(N)]
     for i in range(N):
         for j in range(M):
-            grid[i, j] = random.choices(vals)[0]
+            grid[i][j] = random.choice(vals)
     return grid
 
 
@@ -25,23 +25,22 @@ def update(grid, N, M):
             # compute 8-neghbor sum
             # using toroidal boundary conditions - x and y wrap around
             # so that the simulaton takes place on a toroidal surface.
-            total = int((grid[i, (j - 1) % N] + grid[i, (j + 1) % M] +
-                         grid[(i - 1) % N, j] + grid[(i + 1) % N, j] +
-                         grid[(i - 1) % N, (j - 1) % M] + grid[(i - 1) % N, (j + 1) % M] +
-                         grid[(i + 1) % N, (j - 1) % M] + grid[(i + 1) % N, (j + 1) % M]) / 255)
+            total = int((grid[i][(j - 1) % N] + grid[i][(j + 1) % M] +
+                         grid[(i - 1) % N][j] + grid[(i + 1) % N][j] +
+                         grid[(i - 1) % N][(j - 1) % M] + grid[(i - 1) % N][(j + 1) % M] +
+                         grid[(i + 1) % N][(j - 1) % M] + grid[(i + 1) % N][(j + 1) % M]) / 255)
 
             # apply Conway's rules
-            if grid[i, j] == ON:
+            if grid[i][j] == ON:
                 if (total < 2) or (total > 3):
-                    newGrid[i, j] = OFF
+                    newGrid[i][j] = OFF
             else:
                 if total == 3:
-                    newGrid[i, j] = ON
+                    newGrid[i][j] = ON
     return newGrid
 
 
-# main() function
-def main():
+if __name__ == '__main__':
     # set grid size
     N = 64
     M = 128
@@ -50,9 +49,8 @@ def main():
     #   addGlider(1, 1, grid)
     #  addGosperGliderGun(10, 10, grid)
     grid = randomGrid(N, M)
-    update(grid, N, M, )
+    grid = update(grid, N, M)
+    print(grid)
+    grid = update(grid, N, M)
+    print(grid)
 
-
-# call main
-if __name__ == '__main__':
-    main()
