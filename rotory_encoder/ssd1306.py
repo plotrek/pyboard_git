@@ -203,9 +203,9 @@ class SSD1306(object):
             ystep = -1
         while x0 <= x1:
             if steep:
-                self.set_pixel(y0, x0)
+                self.set_pixel(int(y0), int(x0), 1)
             else:
-                self.set_pixel(x0, y0)
+                self.set_pixel(int(x0), int(y0), 1)
             err -= dy
             if err < 0:
                 y0 += ystep
